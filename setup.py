@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="das_nidf",
-    version="1.1",
+    version="1.0.2",
     author="Miguel A Saavedra L",
     author_email="miguel.lozano@lps.ufrj.br",
     description="Distributed Acoustic Sensing  Processing and Data Visualization Library",
@@ -29,8 +29,13 @@ setup(
         "h5py>=3.0.0",
         "holoviews>=1.15.0",
         "datashader>=0.14.0",
-        "bokeh>=2.4.0",
+        "bokeh>=3.9.0",
         "scikit-image>=0.19.0",
+        "matplotlib>=3.4.0",
+        "colorcet>=3.0.0",
+        "Flask>=2.0.0",
+        "itsdangerous>=2.0.0",
+        "flask-cors>=4.0.0",
     ],
     extras_require={
         "dev": ["pytest>=6.0", "jupyter"],

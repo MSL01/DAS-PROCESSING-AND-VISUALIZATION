@@ -10,7 +10,9 @@
 
 **DAS_NIDF** is a comprehensive Python library for visualizing and analyzing **Distributed Acoustic Sensing (DAS)** data. It provides interactive, high-performance visualization tools using **Holoviews + Datashader**, capable of handling billions of data points.
 
-Developed for Núcleo Interdisciplinar de Dinâmica dos Fluidos (NIDF).
+Developed exclusively for internal use by the **Núcleo Interdisciplinar de Dinâmica dos Fluidos (NIDF)**.
+
+> **Restricted Use Notice:** This package was created specifically for research and technical activities within NIDF and is not intended for public or commercial use.
 
 ---
 
@@ -29,18 +31,10 @@ Developed for Núcleo Interdisciplinar de Dinâmica dos Fluidos (NIDF).
 
 ## Installation
 
-### From PyPI (recommended)
+### From PyPI (authorized internal users only)
 
 ```bash
 pip install das-nidf
-```
-
-### From source
-
-```bash
-git clone https://github.com/MSL01/DAS-PROCESSING-AND-VISUALIZATION.git
-cd DAS-PROCESSING-AND-VISUALIZATION
-pip install -e .
 ```
 
 ---
@@ -62,48 +56,8 @@ Automatically installed with the package:
 ## 🚀 Quick Start
 
 ```python
-from das_nidf import DASPreprocessor, DASVisualizer
-
-# Initialize preprocessor
-preprocessor = DASPreprocessor()
-
-# Process your DAS data (one line!)
-X, t, y, fs, dx, num_locs = preprocessor.process_full_pipeline(
-    filePath='your_data.h5',
-    t_start_cut=5.0,
-    t_end_cut=30.0,
-    hp_cut=0.1,
-    lp_cut=17000,
-    remove_dc=True
-)
-
-# Create visualizer
-visualizer = DASVisualizer(
-    X=X.T,  # channels × time
-    t=t,
-    y=y[:, 0],
-    fs=fs,
-    dx=dx,
-    num_locs=num_locs,
-    num_tr=len(t)
-)
-
-# Set visualization parameters
-params = {
-    'startFiber': 420,
-    'endFiber': 580,
-    'startFiberProfile': 430,
-    'endFiberProfile': 482,
-    'phase_min': -10.01,
-    'phase_max': 10.01,
-    'hp_cut': 0.1,
-    'lp_cut': 17000,
-    'scale_factor': 0.00373,
-    'output_name': 'my_analysis'
-}
-
-# Generate interactive dashboard
-visualizer.run_complete_visualization(params)
+from DAS_NIDF import run_server
+run_server()
 ```
 
 ---
@@ -112,81 +66,21 @@ visualizer.run_complete_visualization(params)
 
 ### 1. Complete Processing Pipeline
 
-The process_full_pipeline method handles:
+The `process_full_pipeline()` method handles:
 
 - Reads HDF5 file  
-- Extracts metadata (fs, dx, num_locs)  
+- Extracts metadata (`fs`, `dx`, `num_locs`)  
 - Applies temporal cutting  
 - Removes DC mean  
 - Applies bandpass filter  
 
-```python
-from das_nidf import DASPreprocessor
-
-preprocessor = DASPreprocessor()
-
-X, t, y, fs, dx, num_locs = preprocessor.process_full_pipeline(
-    filePath='data.h5',
-    t_start_cut=5.0,
-    t_end_cut=30.0,
-    hp_cut=0.1,
-    lp_cut=17000
-)
-```
-
 ---
 
-### 2. Individual Plots
+## 🔒 License / Usage Policy
 
-```python
-# Figure 1: Time signals with FFT
-visualizer.signal_fft_plot(
-    chan_view=430,
-    chan_view2=482,
-    phase_min=-10.01,
-    phase_max=10.01,
-    hp_cut=0.1,
-    lp_cut=17000,
-    scale_factor=0.00373,
-    output_dir='results'
-)
+This software is intended solely for internal academic and technical use within **NIDF**. Redistribution, resale, external deployment, or unauthorized modification may be restricted.
 
-# Figure 2: PSD maps
-visualizer.phase_psd_plot(
-    hp_cut=0.1,
-    lp_cut=17000,
-    scale_factor=0.00373,
-    phase_min=-10.01,
-    phase_max=10.01,
-    output_dir='results'
-)
-
-# Figure 3: ROI Phase map
-visualizer.phase_roi_plot(
-    startFiber=420,
-    endFiber=580,
-    phase_min=-10.01,
-    phase_max=10.01,
-    output_dir='results'
-)
-
-# Figure 4: ROI PSD map
-visualizer.psd_roi_plot(
-    startFiber=420,
-    endFiber=580,
-    hp_cut=0.1,
-    lp_cut=17000,
-    output_dir='results'
-)
-
-# Figure 5: F-K analysis
-visualizer.k_f_plot(
-    startFiber=420,
-    endFiber=580,
-    scale_factor=0.00373,
-    output_dir='results'
-)
-```
+For access requests or collaboration inquiries, please contact the maintainers.
 
 ---
 
