@@ -74,6 +74,29 @@ The `process_full_pipeline()` method handles:
 - Removes DC mean  
 - Applies bandpass filter  
 
+
+### 1. Main Interface & File Upload
+![Main](img/fig1.png)
+The **Main** tab allows users to upload raw HDF5 data files. It automatically extracts and displays key file metadata (channels, duration, and sampling rate) and provides a "Quick Actions" panel to trigger the analysis generation with a real-time progress bar.
+
+### 2. Parameters Configuration
+![Parameters](img/fig2.png)
+The **Parameters** tab gives users full control over the data processing. It is divided into two main sections: **Processing Parameters** (for setting time windows and frequency filters like high-pass and low-pass) and **Visualization Parameters** (for defining spatial boundaries along the fiber, phase limits, and naming the output).
+
+### 3. Load Existing Analysis
+![Loading](img/fig4.png)
+The **Load Analysis** tab enables users to browse and select previously generated analysis runs. This allows for quick retrieval of past results without the need to reprocess the heavy raw data files.
+
+### 4. Results Navigation
+![Results](img/fig5.png)
+Once an analysis is successfully generated or loaded, the **Results** tab displays quick-access buttons. Users can easily navigate to the main interactive dashboard or open individually generated static figures (Figure 1 through 5) for quick inspection.
+
+### 5. Interactive Visualization Dashboard
+![Home](img/fig3.png)
+The core **DAS_NIDF Control Panel** dashboard provides a quick summary of the dataset and acts as a hub for various interactive modules. Users can open specific tools such as Time Signals & FFT, Temporal PSD Maps, ROI Phase Maps, and F-K Analysis.
+
+
+
 ---
 
 ## 🔒 License / Usage Policy
@@ -88,4 +111,4 @@ For access requests or collaboration inquiries, please contact the maintainers.
 
 - HoloViz team for Holoviews and Datashader  
 - Bokeh team for interactive visualization  
-- NIDF and LPS - UFRJ for research support  
+- NIDF - UFRJ for research support  

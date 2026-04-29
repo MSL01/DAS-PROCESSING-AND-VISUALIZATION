@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: das_nidf
-Version: 1.1
+Version: 1.0.3
 Summary: Distributed Acoustic Sensing  Processing and Data Visualization Library
 Home-page: https://github.com/MSL01/DAS-PROCESSING-AND-VISUALIZATION.git
 Author: Miguel A Saavedra L
@@ -19,8 +19,13 @@ Requires-Dist: scipy>=1.7.0
 Requires-Dist: h5py>=3.0.0
 Requires-Dist: holoviews>=1.15.0
 Requires-Dist: datashader>=0.14.0
-Requires-Dist: bokeh>=2.4.0
+Requires-Dist: bokeh>=3.9.0
 Requires-Dist: scikit-image>=0.19.0
+Requires-Dist: matplotlib>=3.4.0
+Requires-Dist: colorcet>=3.0.0
+Requires-Dist: Flask>=2.0.0
+Requires-Dist: itsdangerous>=2.0.0
+Requires-Dist: flask-cors>=4.0.0
 Provides-Extra: dev
 Requires-Dist: pytest>=6.0; extra == "dev"
 Requires-Dist: jupyter; extra == "dev"
@@ -50,7 +55,9 @@ Dynamic: summary
 
 **DAS_NIDF** is a comprehensive Python library for visualizing and analyzing **Distributed Acoustic Sensing (DAS)** data. It provides interactive, high-performance visualization tools using **Holoviews + Datashader**, capable of handling billions of data points.
 
-Developed for Núcleo Interdisciplinar de Dinâmica dos Fluidos (NIDF).
+Developed exclusively for internal use by the **Núcleo Interdisciplinar de Dinâmica dos Fluidos (NIDF)**.
+
+> **Restricted Use Notice:** This package was created specifically for research and technical activities within NIDF and is not intended for public or commercial use.
 
 ---
 
@@ -69,18 +76,10 @@ Developed for Núcleo Interdisciplinar de Dinâmica dos Fluidos (NIDF).
 
 ## Installation
 
-### From PyPI (recommended)
+### From PyPI (authorized internal users only)
 
 ```bash
 pip install das-nidf
-```
-
-### From source
-
-```bash
-git clone https://github.com/MSL01/DAS-PROCESSING-AND-VISUALIZATION.git
-cd DAS-PROCESSING-AND-VISUALIZATION
-pip install -e .
 ```
 
 ---
@@ -102,48 +101,8 @@ Automatically installed with the package:
 ## 🚀 Quick Start
 
 ```python
-from das_nidf import DASPreprocessor, DASVisualizer
-
-# Initialize preprocessor
-preprocessor = DASPreprocessor()
-
-# Process your DAS data (one line!)
-X, t, y, fs, dx, num_locs = preprocessor.process_full_pipeline(
-    filePath='your_data.h5',
-    t_start_cut=5.0,
-    t_end_cut=30.0,
-    hp_cut=0.1,
-    lp_cut=17000,
-    remove_dc=True
-)
-
-# Create visualizer
-visualizer = DASVisualizer(
-    X=X.T,  # channels × time
-    t=t,
-    y=y[:, 0],
-    fs=fs,
-    dx=dx,
-    num_locs=num_locs,
-    num_tr=len(t)
-)
-
-# Set visualization parameters
-params = {
-    'startFiber': 420,
-    'endFiber': 580,
-    'startFiberProfile': 430,
-    'endFiberProfile': 482,
-    'phase_min': -10.01,
-    'phase_max': 10.01,
-    'hp_cut': 0.1,
-    'lp_cut': 17000,
-    'scale_factor': 0.00373,
-    'output_name': 'my_analysis'
-}
-
-# Generate interactive dashboard
-visualizer.run_complete_visualization(params)
+from DAS_NIDF import run_server
+run_server()
 ```
 
 ---
@@ -152,81 +111,44 @@ visualizer.run_complete_visualization(params)
 
 ### 1. Complete Processing Pipeline
 
-The process_full_pipeline method handles:
+The `process_full_pipeline()` method handles:
 
 - Reads HDF5 file  
-- Extracts metadata (fs, dx, num_locs)  
+- Extracts metadata (`fs`, `dx`, `num_locs`)  
 - Applies temporal cutting  
 - Removes DC mean  
 - Applies bandpass filter  
 
-```python
-from das_nidf import DASPreprocessor
 
-preprocessor = DASPreprocessor()
+### 1. Main Interface & File Upload
+![Main](img/fig1.png)
+The **Main** tab allows users to upload raw HDF5 data files. It automatically extracts and displays key file metadata (channels, duration, and sampling rate) and provides a "Quick Actions" panel to trigger the analysis generation with a real-time progress bar.
 
-X, t, y, fs, dx, num_locs = preprocessor.process_full_pipeline(
-    filePath='data.h5',
-    t_start_cut=5.0,
-    t_end_cut=30.0,
-    hp_cut=0.1,
-    lp_cut=17000
-)
-```
+### 2. Parameters Configuration
+![Parameters](img/fig2.png)
+The **Parameters** tab gives users full control over the data processing. It is divided into two main sections: **Processing Parameters** (for setting time windows and frequency filters like high-pass and low-pass) and **Visualization Parameters** (for defining spatial boundaries along the fiber, phase limits, and naming the output).
+
+### 3. Load Existing Analysis
+![Loading](img/fig4.png)
+The **Load Analysis** tab enables users to browse and select previously generated analysis runs. This allows for quick retrieval of past results without the need to reprocess the heavy raw data files.
+
+### 4. Results Navigation
+![Results](img/fig5.png)
+Once an analysis is successfully generated or loaded, the **Results** tab displays quick-access buttons. Users can easily navigate to the main interactive dashboard or open individually generated static figures (Figure 1 through 5) for quick inspection.
+
+### 5. Interactive Visualization Dashboard
+![Home](img/fig3.png)
+The core **DAS_NIDF Control Panel** dashboard provides a quick summary of the dataset and acts as a hub for various interactive modules. Users can open specific tools such as Time Signals & FFT, Temporal PSD Maps, ROI Phase Maps, and F-K Analysis.
+
+
 
 ---
 
-### 2. Individual Plots
+## 🔒 License / Usage Policy
 
-```python
-# Figure 1: Time signals with FFT
-visualizer.signal_fft_plot(
-    chan_view=430,
-    chan_view2=482,
-    phase_min=-10.01,
-    phase_max=10.01,
-    hp_cut=0.1,
-    lp_cut=17000,
-    scale_factor=0.00373,
-    output_dir='results'
-)
+This software is intended solely for internal academic and technical use within **NIDF**. Redistribution, resale, external deployment, or unauthorized modification may be restricted.
 
-# Figure 2: PSD maps
-visualizer.phase_psd_plot(
-    hp_cut=0.1,
-    lp_cut=17000,
-    scale_factor=0.00373,
-    phase_min=-10.01,
-    phase_max=10.01,
-    output_dir='results'
-)
-
-# Figure 3: ROI Phase map
-visualizer.phase_roi_plot(
-    startFiber=420,
-    endFiber=580,
-    phase_min=-10.01,
-    phase_max=10.01,
-    output_dir='results'
-)
-
-# Figure 4: ROI PSD map
-visualizer.psd_roi_plot(
-    startFiber=420,
-    endFiber=580,
-    hp_cut=0.1,
-    lp_cut=17000,
-    output_dir='results'
-)
-
-# Figure 5: F-K analysis
-visualizer.k_f_plot(
-    startFiber=420,
-    endFiber=580,
-    scale_factor=0.00373,
-    output_dir='results'
-)
-```
+For access requests or collaboration inquiries, please contact the maintainers.
 
 ---
 
@@ -234,4 +156,4 @@ visualizer.k_f_plot(
 
 - HoloViz team for Holoviews and Datashader  
 - Bokeh team for interactive visualization  
-- NIDF and LPS - UFRJ for research support  
+- NIDF - UFRJ for research support  

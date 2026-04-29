@@ -1,0 +1,157 @@
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>DAS_NIDF - Main Control Panel</title>
+            <style>
+                * { margin: 0; padding: 0; box-sizing: border-box; }
+                body {
+                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                    min-height: 100vh;
+                    color: #fff;
+                }
+                .header {
+                    background: rgba(255, 255, 255, 0.05);
+                    backdrop-filter: blur(10px);
+                    padding: 40px;
+                    text-align: center;
+                    border-bottom: 1px solid rgba(255,255,255,0.1);
+                }
+                .header h1 {
+                    font-size: 2.5rem;
+                    margin-bottom: 10px;
+                }
+                .header h1 span {
+                    background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    color: transparent;
+                }
+                .container {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 40px;
+                }
+                .stats {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 20px;
+                    margin-bottom: 40px;
+                }
+                .stat-card {
+                    background: rgba(255, 255, 255, 0.05);
+                    backdrop-filter: blur(10px);
+                    border-radius: 15px;
+                    padding: 20px;
+                    text-align: center;
+                    border: 1px solid rgba(255,255,255,0.1);
+                }
+                .stat-card .number {
+                    font-size: 2rem;
+                    font-weight: bold;
+                    color: #00d2ff;
+                }
+                .figures {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                    gap: 25px;
+                }
+                .figure-card {
+                    background: rgba(255, 255, 255, 0.05);
+                    backdrop-filter: blur(10px);
+                    border-radius: 15px;
+                    overflow: hidden;
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+                    border: 1px solid rgba(255,255,255,0.1);
+                }
+                .figure-card:hover {
+                    transform: translateY(-5px);
+                    background: rgba(255, 255, 255, 0.1);
+                    border-color: #00d2ff;
+                }
+                .figure-preview {
+                    height: 150px;
+                    background: linear-gradient(135deg, rgba(0, 210, 255, 0.1), rgba(58, 123, 213, 0.1));
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 3rem;
+                }
+                .figure-info {
+                    padding: 20px;
+                }
+                .figure-info h3 {
+                    margin-bottom: 10px;
+                }
+                .figure-info p {
+                    color: rgba(255,255,255,0.6);
+                    font-size: 0.85rem;
+                    margin-bottom: 15px;
+                }
+                .btn {
+                    display: inline-block;
+                    padding: 8px 20px;
+                    background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+                    border: none;
+                    border-radius: 20px;
+                    color: white;
+                    text-decoration: none;
+                    font-size: 0.85rem;
+                    transition: all 0.3s ease;
+                }
+                .btn:hover {
+                    transform: scale(1.05);
+                }
+                .footer {
+                    text-align: center;
+                    padding: 30px;
+                    color: rgba(255,255,255,0.4);
+                    font-size: 0.8rem;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1><span>DAS_NIDF</span> Control Panel</h1>
+                <p>Distributed Acoustic Sensing - Interactive Visualization Suite</p>
+            </div>
+            <div class="container">
+                <div class="stats">
+                    <div class="stat-card"><div class="number">2512</div><div>Channels</div></div>
+                    <div class="stat-card"><div class="number">30.0</div><div>Duration (s)</div></div>
+                    <div class="stat-card"><div class="number">20000</div><div>Sampling Rate (Hz)</div></div>
+                    <div class="stat-card"><div class="number">1335.2</div><div>Fiber Length (m)</div></div>
+                </div>
+                <div class="figures">
+                    <div class="figure-card" onclick="window.location.href='01_time_signals_fft.html'">
+                        <div class="figure-preview"></div>
+                        <div class="figure-info"><h3>Time Signals & FFT</h3><p>Interactive time series with frequency spectrum analysis</p><span class="btn">Open →</span></div>
+                    </div>
+                    <div class="figure-card" onclick="window.location.href='02_temporal_psd_map.html'">
+                        <div class="figure-preview"></div>
+                        <div class="figure-info"><h3>Temporal PSD Map</h3><p>Power Spectral Density maps over time and distance</p><span class="btn">Open →</span></div>
+                    </div>
+                    <div class="figure-card" onclick="window.location.href='03_roi_phase_map.html'">
+                        <div class="figure-preview"></div>
+                        <div class="figure-info"><h3>ROI Phase Map</h3><p>Region of Interest phase visualization</p><span class="btn">Open →</span></div>
+                    </div>
+                    <div class="figure-card" onclick="window.location.href='04_roi_psd_map.html'">
+                        <div class="figure-preview"></div>
+                        <div class="figure-info"><h3>ROI PSD Map</h3><p>Power Spectral Density for selected ROI</p><span class="btn">Open →</span></div>
+                    </div>
+                    <div class="figure-card" onclick="window.location.href='05_2dfft_kf_analysis.html'">
+                        <div class="figure-preview"></div>
+                        <div class="figure-info"><h3>F-K Analysis</h3><p>2D FFT Frequency-Wavenumber analysis</p><span class="btn">Open →</span></div>
+                    </div>
+                </div>
+                <div class="footer">
+                    <p>DAS_NIDF | Powered by Holoviews + Datashader | Interactive Geophysical Visualization</p>
+                </div>
+            </div>
+        </body>
+        </html>
+                
